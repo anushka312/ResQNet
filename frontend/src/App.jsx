@@ -5,8 +5,9 @@ import Login from "./components/Login/Login.jsx"
 import Report from './components/Report/Report.jsx'
 import Profile from './components/Profile/Profile.jsx'
 import Home from './components/Home.jsx';
-import Services from './components/Services.jsx';
+import About from './components/About.jsx';
 import Navbar from './components/Navbar.jsx';
+import Services from './components/Services.jsx';
 
 const App = () => {
   return (
@@ -17,7 +18,8 @@ const App = () => {
           <Route path="/login" element={<Login />} /> 
           <Route path="/profile" element={<Profile />} /> 
           <Route path="/report" element={<Report />} />
-          <Route path="/report" element={<Services />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
           
           
           <Route path="/" element={<Home />} />
