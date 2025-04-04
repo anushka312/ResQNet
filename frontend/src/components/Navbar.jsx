@@ -14,12 +14,16 @@ const Navbar = () => {
                 <RouterLink to="/About">
                     <p className="text-black p-3  text-lg hover:bg-gray-100">About</p>
                 </RouterLink>
+                
                 <ScrollLink to="services" smooth={true} duration={500} className="text-black p-3 text-lg hover:bg-gray-100 cursor-pointer">
                     Services
                 </ScrollLink>
                 <ScrollLink to="contact" smooth={true} duration={500} className="text-black p-3 text-lg hover:bg-gray-100 cursor-pointer">
                     Contact
                 </ScrollLink>
+                <RouterLink to="/report">
+                    <p className="text-black p-3  text-lg hover:bg-gray-100">Report</p>
+                </RouterLink>
             </nav>
 
             <div className="px-6 py-3 pt-6 flex justify-end bg-transparent">
