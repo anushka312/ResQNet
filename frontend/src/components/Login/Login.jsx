@@ -28,7 +28,7 @@ const Login = () => {
                 <div className="flex">
                   <div className="text-black text-s italic hover:underline mt-4 hover:cursor-pointer flex-1">Forgot your password?</div>
                   <div className="items-end flex-none">
-                    <button className=" rounded-[20px] text-[16px] text-white bg-[#0d1a34] h-[40px] w-24 mt-4 hover:bg-[#b3329d] hover:cursor-pointer">Log In</button>
+                    <button className=" rounded-[20px] text-[16px] text-white bg-[#0d1a34] h-[40px] w-24 mt-4 hover:bg-[#21458f] hover:cursor-pointer">Log In</button>
                   </div>
                 </div>
                   
