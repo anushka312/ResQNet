@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, googleProvider } from "../../Firebase"; // Adjust the path as needed
+import { auth, googleProvider } from "../../Firebase"; 
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 const Login = () => {

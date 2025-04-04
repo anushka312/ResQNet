@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useCrisis } from "../CrisisContext"; // Context import
+import { useCrisis } from "../CrisisContext"; 
 
-// ✅ Working red marker icon with shadow
+
 const redMarker = new L.Icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
@@ -19,7 +19,7 @@ export default function MapView({ crisisLocations = [] }) {
   const markersRef = useRef([]);
   const [userLocation, setUserLocation] = useState([20.5937, 78.9629]); // India default
 
-  // ✅ Get user location
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -30,7 +30,7 @@ export default function MapView({ crisisLocations = [] }) {
     );
   }, []);
 
-  // ✅ Initialize map only once and only if container exists
+  
   useEffect(() => {
     const container = document.getElementById("map");
     if (!mapRef.current && container) {
@@ -45,15 +45,15 @@ export default function MapView({ crisisLocations = [] }) {
     }
   }, [userLocation]);
 
-  // ✅ Render markers with popup
+ 
   useEffect(() => {
     if (!mapRef.current) return;
 
-    // Remove previous markers
+  
     markersRef.current.forEach((marker) => marker.remove());
     markersRef.current = [];
 
-    // Add new markers
+   
     crisisLocations.forEach(({ lat, lng, type }, index) => {
       const marker = L.marker([lat, lng], { icon: redMarker })
         .addTo(mapRef.current)
