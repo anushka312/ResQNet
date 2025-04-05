@@ -8,6 +8,7 @@ import Home from './components/Home.jsx';
 import About from './components/About.jsx';
 import Navbar from './components/Navbar.jsx';
 import Services from './components/Services.jsx';
+import NearestHosp from './components/NearestHosp.jsx';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/report" element={<Report />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/help" element={<NearestHosp />} />
           
           
           <Route path="/" element={<Home />} />

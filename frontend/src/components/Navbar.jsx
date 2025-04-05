@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from './context/AuthContext';
 
 const Navbar = () => {
     const { currentUser } = useAuth();

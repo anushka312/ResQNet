@@ -3,9 +3,11 @@ import LocationPicker from "../LocationPicker";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCrisis } from "../../CrisisContext.jsx";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Report = () => {
   const { addCrisisLocation } = useCrisis();
+  const navigate = useNavigate(); // Initialize navigate
 
   const [formData, setFormData] = useState({
     crisisType: "",
@@ -26,7 +28,6 @@ const Report = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     try {
       const response = await fetch("https://crisis-api.onrender.com/verify", {
         method: "POST",
@@ -39,7 +40,12 @@ const Report = () => {
       if (result.verified) {
         addCrisisLocation(formData.location, formData.crisisType);
         toast.success("✅ Crisis report submitted!");
-      }else{
+
+        // Navigate to NearestHosp after successful submission
+        setTimeout(() => {
+          navigate("/help");
+        }, 3000); // Wait for the toast notification to show before navigating
+      } else {
         toast.warn("❌ Couldn't Submit your report!");
       }
     } catch (error) {
@@ -49,7 +55,6 @@ const Report = () => {
 
     setFormData({ crisisType: "", location: "", description: "", image: null });
   };
-
 
   return (
     <div className="flex h-screen w-auto bg-[url('/src/assets/bg2.jpeg')] bg-cover bg-center bg-fixed m-0 p-0 items-center justify-center">
