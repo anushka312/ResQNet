@@ -12,14 +12,9 @@ const NearestHosp = () => {
         navigator.geolocation.getCurrentPosition((pos) => {
             const coords = [pos.coords.latitude, pos.coords.longitude];
             setUserCoords(coords);
+            fetchHospitalsNearby(coords);
         });
     }, []);
-
-    useEffect(() => {
-        if (userCoords) {
-            fetchHospitalsNearby(userCoords);
-        }
-    }, [userCoords]);
 
     const getETAFromORS = async (source, destination) => {
         try {
@@ -31,8 +26,8 @@ const NearestHosp = () => {
                 },
                 body: JSON.stringify({
                     coordinates: [
-                        [source[1], source[0]],
-                        [destination[1], destination[0]],
+                        [source[1], source[0]], // Longitude, Latitude order
+                        [destination[1], destination[0]], // Longitude, Latitude order
                     ],
                 }),
             });
@@ -56,14 +51,14 @@ const NearestHosp = () => {
         );
         out center;
         `;
-
+    
         const response = await fetch('https://overpass-api.de/api/interpreter', {
             method: 'POST',
             body: query,
         });
-
+    
         const data = await response.json();
-
+    
         const hospitalsRaw = data.elements
             .map((el) => {
                 const hospLat = el.lat || el.center?.lat;
@@ -76,10 +71,10 @@ const NearestHosp = () => {
             })
             .filter((h) => h.lat && h.lon)
             .slice(0, 20);
-
+    
         const haversineDistance = ([lat1, lon1], [lat2, lon2]) => {
             const toRad = (deg) => deg * (Math.PI / 180);
-            const R = 6371e3;
+            const R = 6371e3; // Earth radius in meters
             const dLat = toRad(lat2 - lat1);
             const dLon = toRad(lon2 - lon1);
             const a =
@@ -88,9 +83,9 @@ const NearestHosp = () => {
                 Math.cos(toRad(lat2)) *
                 Math.sin(dLon / 2) ** 2;
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c;
+            return R * c; // Returns distance in meters
         };
-
+    
         const enriched = await Promise.all(
             hospitalsRaw.map(async (hospital) => {
                 const eta = await getETAFromORS([lat, lon], [hospital.lat, hospital.lon]);
@@ -98,12 +93,14 @@ const NearestHosp = () => {
                 return { ...hospital, eta, distance };
             })
         );
-
+    
+        // Add 5 minutes to each hospital's ETA
         const adjustedHospitals = enriched.map(hospital => ({
             ...hospital,
             eta: hospital.eta ? hospital.eta + 5 : null,
         }));
 
+        // Compute average ETA
         const totalEta = adjustedHospitals.reduce((acc, hospital) => acc + (hospital.eta || 0), 0);
         const avgEta = totalEta / adjustedHospitals.length;
 
@@ -117,7 +114,9 @@ const NearestHosp = () => {
             .slice(0, 3);
 
         setHospitals(sorted);
-        console.log('Average ETA (with +5 minutes):', avgEta + 5);
+
+        // Log or use the average ETA for display
+        console.log('Average ETA (with +5 minutes):', avgEta + 5); // You can display it in the UI if needed.
     };
 
     return (
@@ -127,7 +126,7 @@ const NearestHosp = () => {
                 Help is on the way. We're connecting you to nearby hospitals.
             </p>
 
-            {userCoords ? (
+            {userCoords && (
                 <MapContainer
                     center={userCoords}
                     zoom={14}
@@ -143,18 +142,8 @@ const NearestHosp = () => {
                         attribution='&copy; OpenStreetMap contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker
-                        position={userCoords}
-                        icon={L.icon({
-                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/252/252025.png',
-                            iconSize: [35, 35],
-                            iconAnchor: [17, 35],
-                            popupAnchor: [0, -30],
-                        })}
-                    >
-                        <Popup>
-                            📍 <strong>Your Current Location</strong>
-                        </Popup>
+                    <Marker position={userCoords}>
+                        <Popup>You are here</Popup>
                     </Marker>
 
                     {hospitals.map((hospital, idx) => (
@@ -182,8 +171,6 @@ const NearestHosp = () => {
                         </Marker>
                     ))}
                 </MapContainer>
-            ) : (
-                <p className="text-gray-500 mt-6">📍 Detecting your location...</p>
             )}
 
             <div className="mt-10 px-6 md:px-12">
@@ -203,7 +190,7 @@ const NearestHosp = () => {
                                 ETA: <span className="font-medium">{hospital.eta} min</span>
                             </p>
                             <a
-                                href={`https://www.google.com/maps/dir/?api=1&origin=${userCoords?.[0]},${userCoords?.[1]}&destination=${hospital.lat},${hospital.lon}`}
+                                href={`https://www.google.com/maps/dir/?api=1&origin=${userCoords[0]},${userCoords[1]}&destination=${hospital.lat},${hospital.lon}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-500 underline"
