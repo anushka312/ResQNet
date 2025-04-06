@@ -8,11 +8,12 @@ import { CrisisProvider } from './CrisisContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
     <CrisisProvider>
+    <AuthProvider>
+    
       <App />
-    </CrisisProvider>
+    
     </AuthProvider>
-
+    </CrisisProvider>
   </StrictMode>,
 )

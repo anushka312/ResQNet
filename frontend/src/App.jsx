@@ -1,3 +1,4 @@
+// App.jsx
 import './App.css'
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -12,18 +13,16 @@ import NearestHosp from './components/NearestHosp.jsx';
 
 const App = () => {
   return (
-    <Router> {/* Wrap everything in Router */}
+    <Router>
       <div>
         <Navbar />
         <Routes>
-          <Route path="/login" element={<Login />} /> 
-          <Route path="/profile" element={<Profile />} /> 
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/report" element={<Report />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/help" element={<NearestHosp />} />
-          
-          
           <Route path="/" element={<Home />} />
         </Routes>
       </div>
