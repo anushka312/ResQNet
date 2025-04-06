@@ -152,7 +152,7 @@ const NearestHosp = () => {
                             key={idx}
                             position={[hospital.lat, hospital.lon]}
                             icon={L.icon({
-                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/1484/1484848.png',
+                                iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png',
                                 iconSize: [35, 35],
                             })}
                         >
